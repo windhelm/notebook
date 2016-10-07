@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('notes', 'Account\NoteController');
+    Route::resource('categories', 'Account\CategoryNoteController');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

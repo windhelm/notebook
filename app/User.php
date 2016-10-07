@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function categories_notes()
+    {
+        return $this->hasMany('App\Models\CategoryNote');
+    }
 }
