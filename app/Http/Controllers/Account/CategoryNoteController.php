@@ -2,13 +2,37 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\CategoryNote;
-use Illuminate\Support\Facades\DB;
+
+use App\Repositories\CategoryNoteRepository;
+
 class CategoryNoteController extends Controller
 {
+
+    /**
+     * The category note repository instance.
+     */
+    protected $categories;
+
+    protected $users;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  CategoryNoteRepository  $users
+     * @return void
+     */
+    public function __construct(CategoryNoteRepository $categories,UserRepository $users)
+    {
+        $this->categories = $categories;
+        $this->users = $users;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +42,9 @@ class CategoryNoteController extends Controller
     {
         //
         $user = \Auth::user();
+        $categories = $this->users->getAllCategoriesByUser($user->id)->paginate(5);
 
-        return view('categories/index',['categories' => $user->categories_notes()->paginate(5)]);
+        return view('categories/index',['categories' => $categories]);
     }
 
     /**
@@ -68,8 +93,7 @@ class CategoryNoteController extends Controller
      */
     public function show($id)
     {
-        $category = CategoryNote::findOrFail($id);
-
+        $category = $this->categories->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');
@@ -86,7 +110,7 @@ class CategoryNoteController extends Controller
      */
     public function edit($id)
     {
-        $category = CategoryNote::findOrFail($id);
+        $category = $this->categories->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');

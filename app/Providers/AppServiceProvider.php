@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('App\Repositories\CategoryNoteRepository');
+        $this->app->bind('App\Repositories\UserRepository');
     }
 
     /**
