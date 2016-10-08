@@ -1,5 +1,4 @@
-<?
-
+<?php
 namespace App\Repositories;
 
 use App\User;
@@ -15,6 +14,11 @@ class UserRepository
     public function setCategory($user, $category)
     {
         $user->categories_notes()->save($category);
+    }
+
+    public function setNote($user, $note)
+    {
+        $user->notes()->save($note);
     }
 
     public function delete($id)

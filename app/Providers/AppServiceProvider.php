@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('App\Repositories\CategoryNoteRepository');
         $this->app->bind('App\Repositories\UserRepository');
+        $this->app->bind('App\Repositories\NoteRepository');
     }
 
     /**

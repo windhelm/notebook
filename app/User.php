@@ -31,4 +31,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\CategoryNote');
     }
+
+    public function notes()
+    {
+        return $this->hasMany('App\Models\Note');
+    }
+
+    public function get_uncategories_notes()
+    {
+        return $this->notes()->where('category_id','NULL');
+    }
 }

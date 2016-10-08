@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Models\CategoryNote;
 
 use App\Repositories\UserRepository;
 use App\Repositories\CategoryNoteRepository;
@@ -26,8 +25,9 @@ class CategoryNoteController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  CategoryNoteRepository  $users
-     * @return void
+     * @param  UserRepository  $users
+     * @param  CategoryNoteRepository $categories
+     *
      */
     public function __construct(CategoryNoteRepository $categories,UserRepository $users)
     {
@@ -73,7 +73,7 @@ class CategoryNoteController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'title' => 'min:4|max:40',
+            'title' => 'required|min:4|max:40|unique:categories_notes,title,'.$user->id.',user_id',
             'description' => 'max:200'
         ]);
 
@@ -132,7 +132,7 @@ class CategoryNoteController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'min:4|max:40',
+            'title' => 'required|min:4|max:40',
             'description' => 'max:200'
         ]);
 
@@ -147,10 +147,7 @@ class CategoryNoteController extends Controller
             "description" => $request->input('description')
         ]);
 
-        $user = \Auth::user();
-        $categories = $this->categoriesRepo->getCategoriesByUser($user)->paginate(5);
-
-        return redirect()->route('categories.index',["categories" => $categories])->with('status', 'Категория успешно обновлена!');
+        return redirect()->route('categories.index')->with('status', 'Категория успешно обновлена!');
     }
 
     /**
@@ -173,9 +170,6 @@ class CategoryNoteController extends Controller
             return $id;
         }
 
-        $user = \Auth::user();
-        $categories = $this->categoriesRepo->getCategoriesByUser($user)->paginate(5);
-
-        return redirect()->route('categories.index',["categories" => $categories])->with('status', 'Категория успешно удалена!');
+        return redirect()->route('categories.index')->with('status', 'Категория успешно удалена!');
     }
 }

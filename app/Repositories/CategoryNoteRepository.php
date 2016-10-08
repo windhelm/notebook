@@ -1,5 +1,4 @@
-<?
-
+<?php
 namespace App\Repositories;
 
 use App\Models\CategoryNote as CategoryNote;
@@ -9,7 +8,7 @@ class CategoryNoteRepository
 
     public function getAll()
     {
-        return CategoryNote::getAll();
+        return CategoryNote::all();
     }
 
     public function find($id)

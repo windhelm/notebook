@@ -17,4 +17,9 @@ class CategoryNote extends Model
     protected $fillable = [
         'title', 'description',
     ];
+
+    public function notes()
+    {
+        return $this->hasMany('App\Models\Note','category_id');
+    }
 }
