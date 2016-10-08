@@ -17,8 +17,24 @@ class CategoryNoteRepository
         return CategoryNote::findOrFail($id);
     }
 
-    public function delete($id)
+    public function delete($category)
     {
-        return CategoryNote::where('id',$id)->delete();
+        return $category->delete();
+    }
+
+    public function getCategoriesByUser($user)
+    {
+        return $user->categories_notes();
+    }
+
+    public function create(array $data)
+    {
+        $category = new CategoryNote($data);
+        return $category;
+    }
+
+    public function update($category, array $data)
+    {
+        $category->update($data);
     }
 }

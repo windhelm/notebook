@@ -7,14 +7,14 @@ use App\User;
 class UserRepository
 {
 
-    public function getAllCategoriesByUser($id)
-    {
-        return User::findOrFail($id)->categories_notes();
-    }
-
     public function find($id)
     {
         return User::find($id);
+    }
+
+    public function setCategory($user, $category)
+    {
+        $user->categories_notes()->save($category);
     }
 
     public function delete($id)

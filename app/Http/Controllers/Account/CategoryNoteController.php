@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Repositories\UserRepository;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\CategoryNote;
 
+use App\Repositories\UserRepository;
 use App\Repositories\CategoryNoteRepository;
 
 class CategoryNoteController extends Controller
@@ -16,9 +17,11 @@ class CategoryNoteController extends Controller
     /**
      * The category note repository instance.
      */
-    protected $categories;
-
-    protected $users;
+    protected $categoriesRepo;
+    /**
+     * The users repository instance.
+     */
+    protected $usersRepo;
 
     /**
      * Create a new controller instance.
@@ -28,8 +31,8 @@ class CategoryNoteController extends Controller
      */
     public function __construct(CategoryNoteRepository $categories,UserRepository $users)
     {
-        $this->categories = $categories;
-        $this->users = $users;
+        $this->categoriesRepo = $categories;
+        $this->usersRepo = $users;
     }
 
 
@@ -42,7 +45,7 @@ class CategoryNoteController extends Controller
     {
         //
         $user = \Auth::user();
-        $categories = $this->users->getAllCategoriesByUser($user->id)->paginate(5);
+        $categories = $this->categoriesRepo->getCategoriesByUser($user)->paginate(5);
 
         return view('categories/index',['categories' => $categories]);
     }
@@ -74,12 +77,12 @@ class CategoryNoteController extends Controller
             'description' => 'max:200'
         ]);
 
-        $category = new CategoryNote([
+        $category = $this->categoriesRepo->create([
             'title' => $request->input('title'),
             'description' => $request->input('description')
         ]);
 
-        $user->categories_notes()->save($category);
+        $this->usersRepo->setCategory($user, $category);
 
         return redirect()->route('categories.index')->with('status', 'Категория успешно добавлена!');
 
@@ -93,7 +96,7 @@ class CategoryNoteController extends Controller
      */
     public function show($id)
     {
-        $category = $this->categories->find($id);
+        $category = $this->categoriesRepo->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');
@@ -110,7 +113,7 @@ class CategoryNoteController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->categories->find($id);
+        $category = $this->categoriesRepo->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');
@@ -133,18 +136,21 @@ class CategoryNoteController extends Controller
             'description' => 'max:200'
         ]);
 
-        $category = CategoryNote::findOrFail($id);
+        $category = $this->categoriesRepo->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');
         }
 
-        $category->title = $request->input('title');
-        $category->description = $request->input('description');
-        $category->save();
+        $this->categoriesRepo->update($category,[
+            "title" => $request->input('title'),
+            "description" => $request->input('description')
+        ]);
 
         $user = \Auth::user();
-        return redirect()->route('categories.index',["categories" => $user->categories_notes])->with('status', 'Категория успешно обновлена!');
+        $categories = $this->categoriesRepo->getCategoriesByUser($user)->paginate(5);
+
+        return redirect()->route('categories.index',["categories" => $categories])->with('status', 'Категория успешно обновлена!');
     }
 
     /**
@@ -155,20 +161,21 @@ class CategoryNoteController extends Controller
      */
     public function destroy($id)
     {
-        $category = CategoryNote::findOrFail($id);
+        $category = $this->categoriesRepo->find($id);
 
         if (!\Gate::allows('category', $category)) {
             abort(403, 'Unauthorized action.');
         }
 
-        $category->delete();
+        $this->categoriesRepo->delete($category);
 
         if(\Request::ajax()){
             return $id;
         }
 
         $user = \Auth::user();
+        $categories = $this->categoriesRepo->getCategoriesByUser($user)->paginate(5);
 
-        return redirect()->route('categories.index',["categories" => $user->categories_notes])->with('status', 'Категория успешно удалена!');
+        return redirect()->route('categories.index',["categories" => $categories])->with('status', 'Категория успешно удалена!');
     }
 }
