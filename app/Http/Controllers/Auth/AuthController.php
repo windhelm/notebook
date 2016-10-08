@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
-use App\Repositories\UserSocialsRepository;
 use App\Repositories\UserRepository;
 
 class AuthController extends Controller
@@ -19,9 +18,9 @@ class AuthController extends Controller
      */
     protected $usersRepo;
 
-    public function __construct(UserRepository $users, UserSocialsRepository $userSocialsRepository)
+    public function __construct(UserRepository $users)
     {
-        $this->usersSocialsRepo = $userSocialsRepository;
+
         $this->usersRepo = $users;
     }
 
