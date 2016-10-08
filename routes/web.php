@@ -23,4 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Auth::routes();
 
+Route::get('auth/vkontakte', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/vkontakte/callback', 'Auth\AuthController@handleProviderCallback');
+
 Route::get('/home', 'HomeController@index');

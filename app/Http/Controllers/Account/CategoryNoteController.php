@@ -73,7 +73,7 @@ class CategoryNoteController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'title' => 'required|min:4|max:40|unique:categories_notes,title,'.$user->id.',user_id',
+            'title' => 'required|min:4|max:40|note_unique',
             'description' => 'max:200'
         ]);
 

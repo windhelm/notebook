@@ -8,7 +8,7 @@
                 <div class="panel-heading">Мой профиль</div>
 
                 <div class="panel-body">
-                    <p></p>
+                    <p>Привязка социальных аккаунтов</p>
                 </div>
             </div>
         </div>

@@ -48,6 +48,9 @@ class NoteController extends Controller
     {
         $user = \Auth::user();
 
+        // if user have social vk account try get notes vk
+        //
+
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
         $notes_uncategory = $this->notesRepo->getUncotegoryNotesByUser($user)->get();
 

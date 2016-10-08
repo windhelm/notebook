@@ -21,6 +21,11 @@ class UserRepository
         $user->notes()->save($note);
     }
 
+    public function setSocial($user, $social)
+    {
+        $user->social()->save($social);
+    }
+
     public function delete($id)
     {
         return User::where('id',$id)->delete();
