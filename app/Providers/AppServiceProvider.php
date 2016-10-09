@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         \Validator::extend('note_unique', function($attribute, $value, $parameters, $validator) {
 
             $user = \Auth::user();
-            $note = $user->notes()->where('title','=',$value)->first();
+            $note = $user->categories_notes()->where('title','=',$value)->first();
 
             if ($note == null){
                 return true;

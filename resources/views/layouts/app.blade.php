@@ -43,8 +43,10 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        @if (!Auth::guest())
                         <li><a href="{{ route('notes.index') }}">Заметки</a></li>
                         <li><a href="{{ route('categories.index') }}">Категории</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
