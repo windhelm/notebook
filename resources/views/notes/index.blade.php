@@ -74,6 +74,8 @@
                             </tbody>
                         </table>
 
+
+                        {{ $notes_vk }}
                     </div>
                 </div>
             </div>
