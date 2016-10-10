@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         $this->usersRepo->setSocial($user,$userSocial);
 
-        return redirect()->route('/home');
+        return redirect('/home')->with('status', 'Ваш аккаунт успешно привязан!');;
 
     }
 

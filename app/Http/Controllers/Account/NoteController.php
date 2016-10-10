@@ -54,7 +54,7 @@ class NoteController extends Controller
 
         if($this->usersRepo->checkSocial($user)){
 
-            $access_token = $user->token;
+            $access_token = $user->social()->where('provider','vkontakte')->first()->token;
             dd($access_token);
             $notes_vk = $access_token;
         }
