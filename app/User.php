@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->notes()->where('category_id','NULL');
     }
+
+    public function social()
+    {
+        return $this->hasMany('App\Models\UserSocial');
+    }
 }
