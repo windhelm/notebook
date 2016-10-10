@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Account;
 
-
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -32,10 +32,14 @@ class NoteController extends Controller
      * @param  CategoryNoteRepository $categories
      *
      */
+
+    protected $client;
+
     public function __construct(CategoryNoteRepository $categories,UserRepository $users, NoteRepository $notes)
     {
         $this->categoriesRepo = $categories;
         $this->usersRepo = $users;
+        $this->client = new Client();
         $this->notesRepo = $notes;
     }
 
@@ -55,8 +59,12 @@ class NoteController extends Controller
         if($this->usersRepo->checkSocial($user)){
 
             $access_token = $user->social()->where('provider','vkontakte')->first()->token;
-            dd($access_token);
-            $notes_vk = $access_token;
+            $r = $this->client->post('https://api.vk.com/method/notes.get',
+                ['json' => [
+                     "access_token" => $access_token
+                ]]);
+
+            dd($r);
         }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
