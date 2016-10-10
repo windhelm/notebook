@@ -50,11 +50,17 @@ class NoteController extends Controller
 
         // if user have social vk account try get notes vk
         //
+        $notes_vk = "no";
+
+        if($this->usersRepo->checkSocial($user)){
+            $userProvider = \Socialite::driver('vkontakte')->user();
+            $notes_vk = $userProvider->accessTokenResponseBody;
+        }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
         $notes_uncategory = $this->notesRepo->getUncotegoryNotesByUser($user)->get();
 
-        return view('notes/index',['categories' => $categories,'notes_uncategory' => $notes_uncategory]);
+        return view('notes/index',['categories' => $categories,'notes_uncategory' => $notes_uncategory,'notes_vk' => $notes_vk]);
     }
 
     /**

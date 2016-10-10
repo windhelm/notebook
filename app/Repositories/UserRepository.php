@@ -30,4 +30,9 @@ class UserRepository
     {
         return User::where('id',$id)->delete();
     }
+
+    public function checkSocial($user)
+    {
+        return $user->check_social();
+    }
 }

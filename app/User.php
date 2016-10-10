@@ -46,4 +46,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\UserSocial');
     }
+
+    public function check_social()
+    {
+        if (count($this->social) > 0)
+            return true;
+        else
+            return false;
+    }
 }
