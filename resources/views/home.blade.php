@@ -21,7 +21,11 @@
 
 
                     <p>Привязка социальных аккаунтов</p>
+                    @if (\Auth::user()->check_social())
+                        <a href="#">Открепить вк</a>
+                        @else
                     <a href="{{ route('social.login',['provider' => 'vkontakte']) }}">Привязать вк</a>
+                        @endif
 
                 </div>
             </div>
