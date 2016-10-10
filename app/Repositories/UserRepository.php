@@ -35,4 +35,10 @@ class UserRepository
     {
         return $user->check_social();
     }
+
+    public function removeSocial($user,$provider)
+    {
+        $user->social()->where('provider',$provider)->first()->delete();
+    }
+
 }

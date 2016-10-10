@@ -28,6 +28,12 @@ class AuthController extends Controller
 
     public function redirectToProvider()
     {
+        $user = \Auth::user();
+
+        if ($user->check_social()){
+            return redirect()->back()->with('status', 'Аккаунт уже прикреплен!');
+        }
+
         return \Socialite::driver('vkontakte')->scopes(['notes'])->redirect();
     }
 
@@ -46,8 +52,22 @@ class AuthController extends Controller
 
         $this->usersRepo->setSocial($user,$userSocial);
 
-        return redirect('/home')->with('status', 'Ваш аккаунт успешно привязан!');;
+        return redirect('/home')->with('status', 'Ваш аккаунт успешно привязан!');
 
     }
+
+    public function socialRemove()
+    {
+        $user = \Auth::user();
+        $provider = "vkontakte";
+
+        if (!$user->check_social()){
+            return redirect('/home')->with('status', 'Аккаунт соц сети не найден!');
+        }
+
+        $this->usersRepo->removeSocial($user,$provider);
+        return redirect('/home')->with('status', 'Ваш аккаунт успешно откреплен!');
+    }
+
 
 }

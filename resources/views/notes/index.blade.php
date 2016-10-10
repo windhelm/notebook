@@ -74,7 +74,7 @@
                             </tbody>
                         </table>
 
-
+                        <h4>Заметки из социальных сетей (VK)</h4>
                         @if ($notes_vk->response == "noacc")
                             <p>Соц аккаунт не привязан</p>
                             @else
