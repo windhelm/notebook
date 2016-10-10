@@ -9,6 +9,8 @@
 
                 <div class="panel-body">
                     <p>Привязка социальных аккаунтов</p>
+                    <a href="{{ route('social.login',['provider' => 'vkontakte']) }}">Привязать вк</a>
+
                 </div>
             </div>
         </div>

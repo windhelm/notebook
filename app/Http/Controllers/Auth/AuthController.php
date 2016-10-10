@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\UserSocial;
 use App\Repositories\UserRepository;
+use App\Repositories\UserSocialRepository;
 
 class AuthController extends Controller
 {
@@ -18,9 +20,9 @@ class AuthController extends Controller
      */
     protected $usersRepo;
 
-    public function __construct(UserRepository $users)
+    public function __construct(UserRepository $users,UserSocialRepository $userSocial)
     {
-
+        $this->usersSocialsRepo = $userSocial;
         $this->usersRepo = $users;
     }
 
@@ -31,8 +33,17 @@ class AuthController extends Controller
 
     public function handleProviderCallback()
     {
-        $user = \Socialite::driver('vkontakte')->user();
+        $userProvider = \Socialite::driver('vkontakte')->user();
 
+        $user = \Auth::user();
+
+        // create new social account
+        $userSocial = $this->usersSocialsRepo->create([
+            'provider_user_id' => $userProvider->getId(),
+            'provider' => 'vkontakte'
+        ]);
+
+        $this->usersRepo->setSocial($user,$userSocial);
 
     }
 
