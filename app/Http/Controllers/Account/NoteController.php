@@ -49,12 +49,13 @@ class NoteController extends Controller
         $user = \Auth::user();
 
         // if user have social vk account try get notes vk
-        //
+
         $notes_vk = "no";
 
         if($this->usersRepo->checkSocial($user)){
-            $userProvider = \Socialite::driver('vkontakte')->user();
-            $notes_vk = $userProvider->accessTokenResponseBody;
+
+            $access_token = \Session::get('access_token');
+            $notes_vk = $access_token;
         }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();

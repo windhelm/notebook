@@ -44,8 +44,8 @@ class AuthController extends Controller
         ]);
 
         $this->usersRepo->setSocial($user,$userSocial);
-
-        return "success";
+        \Session::put('access_token', $userProvider->accessTokenResponseBody);
+        dd($userProvider);
     }
 
 }
