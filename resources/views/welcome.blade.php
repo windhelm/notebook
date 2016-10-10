@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">О проекте</a>
+                    <a href="https://github.com/windhelm/notebook">О проекте</a>
                 </div>
             </div>
         </div>

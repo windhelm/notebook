@@ -46,6 +46,7 @@
                         @if (!Auth::guest())
                         <li><a href="{{ route('notes.index') }}">Заметки</a></li>
                         <li><a href="{{ route('categories.index') }}">Категории</a></li>
+                        <li><a href="{{ url('/home') }}">Профайл</a></li>
                         @endif
                     </ul>
 
@@ -55,8 +56,9 @@
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
+
                         @else
-                            <a href="{{ url('/home') }}">
+
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         {{ Auth::user()->name }} <span class="caret"></span>
@@ -76,7 +78,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                            </a>
+
                         @endif
                     </ul>
                 </div>

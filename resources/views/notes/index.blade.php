@@ -81,8 +81,16 @@
 
                             @if ($notes_vk->response->count > 0)
                                 <p>Количество заметок {{ $notes_vk->response->count }}</p>
+                                <table class="table">
                                 @foreach ($notes_vk->response->items as $note)
-                                    @endforeach
+
+                                        <tr id="row_{{$note->id}}">
+                                            <td>
+                                                <a href="{{ $note->view_url }}">{{ $note->title }}</a>
+                                            </td>
+                                        </tr>
+                                @endforeach
+                                </table>
                                 @else
                                 <p>Заметок нет</p>
                                 @endif
