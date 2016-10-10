@@ -43,8 +43,11 @@ class AuthController extends Controller
             'provider' => 'vkontakte'
         ]);
 
+        dd($userSocial);
+
         $this->usersRepo->setSocial($user,$userSocial);
 
+        return redirect()->back();
     }
 
 }
