@@ -18,6 +18,7 @@ class CreateModelsUserSocialsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('provider_user_id');
             $table->string('provider');
+            $table->string('token');
             $table->timestamps();
         });
     }

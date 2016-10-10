@@ -40,12 +40,14 @@ class AuthController extends Controller
         // create new social account
         $userSocial = $this->usersSocialsRepo->create([
             'provider_user_id' => $userProvider->getId(),
-            'provider' => 'vkontakte'
+            'provider' => 'vkontakte',
+            'token' => $userProvider->token
         ]);
 
         $this->usersRepo->setSocial($user,$userSocial);
-        \Session::put('access_token', $userProvider->token);
-        dd(\Session::get('access_token'));
+
+        return redirect()->route('/home');
+
     }
 
 }
