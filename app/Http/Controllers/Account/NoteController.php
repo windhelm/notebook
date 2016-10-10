@@ -66,7 +66,7 @@ class NoteController extends Controller
             )
         )));
 
-        dd($result);
+        return $result;
     }
 
     public function index()
@@ -75,12 +75,13 @@ class NoteController extends Controller
 
         // if user have social vk account try get notes vk
 
-        $notes_vk = "no";
-
         if($this->usersRepo->checkSocial($user)){
 
             $access_token = $user->social()->where('provider','vkontakte')->first()->token;
-            $this->send($access_token,'notes.get');
+            $response = $this->send($access_token,'notes.get');
+            $notes_vk = $response;
+        }else{
+            $notes_vk = '{"response":"noacc"}';
         }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();

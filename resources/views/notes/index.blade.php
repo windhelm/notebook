@@ -75,7 +75,18 @@
                         </table>
 
 
-                        {{ $notes_vk }}
+                        @if ($notes_vk->response == "noacc")
+                            <p>Соц аккаунт не привязан</p>
+                            @else
+
+                            @if ($notes_vk->response->count > 0)
+                                <p>Количество заметок {{ $notes_vk->response->count }}</p>
+                                @foreach ($notes_vk->response->items as $note)
+                                    @endforeach
+                                @else
+                                <p>Заметок нет</p>
+                                @endif
+                        @endif
                     </div>
                 </div>
             </div>
