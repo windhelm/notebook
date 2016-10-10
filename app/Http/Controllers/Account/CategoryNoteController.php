@@ -73,7 +73,7 @@ class CategoryNoteController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'title' => 'required|min:4|max:40|note_unique',
+            'title' => 'required|min:4|max:30|note_unique',
             'description' => 'max:200'
         ]);
 
@@ -132,7 +132,7 @@ class CategoryNoteController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required|min:4|max:40',
+            'title' => 'required|min:4|max:30',
             'description' => 'max:200'
         ]);
 
