@@ -55,6 +55,7 @@ class NoteController extends Controller
         if($this->usersRepo->checkSocial($user)){
 
             $access_token = \Session::get('access_token');
+            dd($access_token);
             $notes_vk = $access_token;
         }
 
