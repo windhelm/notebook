@@ -48,6 +48,27 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function send($access_token)
+    {
+        $url = 'https://api.vk.com/method/friends.get';
+        $params = array(
+            'access_token' => $access_token,  // access_token можно вбить хардкодом, если работа будет идти из под одного юзера
+            'v' => '5.37',
+        );
+
+        // В $result вернется id отправленного сообщения
+        $result = file_get_contents($url, false, stream_context_create(array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query($params)
+            )
+        )));
+
+        dd($result);
+    }
+
     public function index()
     {
         $user = \Auth::user();
@@ -59,12 +80,7 @@ class NoteController extends Controller
         if($this->usersRepo->checkSocial($user)){
 
             $access_token = $user->social()->where('provider','vkontakte')->first()->token;
-            $r = $this->client->post('https://api.vk.com/method/notes.get',
-                ['json' => [
-                     "access_token" => $access_token
-                ]]);
-
-            dd($r);
+            $this->send($access_token);
         }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
