@@ -28,7 +28,7 @@ class AuthController extends Controller
 
     public function redirectToProvider()
     {
-        return \Socialite::driver('vkontakte')->redirect();
+        return \Socialite::driver('vkontakte')->scopes(['notes'])->redirect();
     }
 
     public function handleProviderCallback()
