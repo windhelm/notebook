@@ -87,7 +87,7 @@ class NoteController extends Controller
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
         $notes_uncategory = $this->notesRepo->getUncotegoryNotesByUser($user)->get();
 
-        return view('notes/index',['categories' => $categories,'notes_uncategory' => $notes_uncategory,'notes_vk' => $notes_vk]);
+        return view('notes/index',['categories' => $categories,'notes_uncategory' => $notes_uncategory,'notes_vk' => json_decode($notes_vk)]);
     }
 
     /**
