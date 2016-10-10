@@ -49,9 +49,9 @@ class NoteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function send($access_token)
+    function send($access_token,$method)
     {
-        $url = 'https://api.vk.com/method/friends.get';
+        $url = 'https://api.vk.com/method/'.$method;
         $params = array(
             'access_token' => $access_token,  // access_token можно вбить хардкодом, если работа будет идти из под одного юзера
             'v' => '5.37',
@@ -80,7 +80,7 @@ class NoteController extends Controller
         if($this->usersRepo->checkSocial($user)){
 
             $access_token = $user->social()->where('provider','vkontakte')->first()->token;
-            $this->send($access_token);
+            $this->send($access_token,'notes.get');
         }
 
         $categories = $this->categoriesRepo->getCategoriesByUser($user)->get();
